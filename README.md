@@ -1,4 +1,5 @@
-vagrant-nzb
+ThePirateShip
+a customized clone of the great vagrant-nzb by argilzar
 ===========
 vagrant-nzb is a tool that can help you setup [Virtualbox](https://www.virtualbox.org/wiki/Downloads) boxes for the most popular usenet media tools. The goal of the project is to minimize the hassle it can be to set them all up individually and also to make them portable. The first version of the tool can to some extend manage this for [SabNZBd](http://sabnzbd.org/), [Sickbeard](http://sickbeard.com/) and [Couchpotato](https://couchpota.to/). Although this project is aimed at using usenet for downloads you can use torrents or some other method instead.
 
