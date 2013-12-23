@@ -16,18 +16,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-#Set to false those services you dont need
-USE_SABNZBD=true
-USE_SICKBEARD=true
-USE_COUCHPOTATO=true
-USE_HEADPHONES=true
-USE_NZEDB=true
-USE_MEDIATOMB=true
-
 #In *nix it is better to use 
 USE_NFS=false
 
-Vagrant.configure("1") do |config|
+Vagrant.configure("2") do |config|
   #The ubuntu cloud image, will be downloaded for the first box
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.box = "raring-amd64-vagrant"
@@ -42,73 +34,16 @@ Vagrant.configure("1") do |config|
   config.vm.share_folder "movies", "/media/video/Movies", "Videos/Movies", :create => true , :nfs => USE_NFS
   config.vm.share_folder "music", "/media/Music", "Music", :create => true, :nfs => USE_NFS
   
-  #sabnzbdpluss
-  if USE_SABNZBD
-   config.vm.define :sabnzb do |sabnzb|
-     sabnzb.vm.provision :shell, :path => "sabnzb.sh"
-     sabnzb.vm.forward_port 8080, 8080
-     sabnzb.vm.host_name = "sabnzb"
-     sabnzb.vm.network :hostonly, "192.168.2.101"
-   end
-  end
-
-  #Sickbeard server, config files
-  if USE_SICKBEARD
-    config.vm.define :sickbeard do |sickbeard|
-      sickbeard.vm.provision :shell, :path => "sickbeard.sh"
-      sickbeard.vm.forward_port 8081, 8081
-      sickbeard.vm.host_name = "sickbeard"
-      sickbeard.vm.network :hostonly, "192.168.2.102"
-    end
-  end
-
-  #Couchpotato server, config files
-  if USE_COUCHPOTATO
-    config.vm.define :couchpotato do |couchpotato|
-      couchpotato.vm.provision :shell, :path => "couchpotato.sh"
-      couchpotato.vm.forward_port 5050, 5050
-      couchpotato.vm.host_name = "couchpotato"
-      couchpotato.vm.network :hostonly, "192.168.2.103"
-    end
-  end
-
-  #Headphones server, config files
-  if USE_HEADPHONES
-    config.vm.define :headphones do |headphones|
-      headphones.vm.provision :shell, :path => "headphones.sh"
-      headphones.vm.forward_port 8181, 8181
-      headphones.vm.host_name = "headphones"
-      headphones.vm.network :hostonly, "192.168.2.104"
-    end
-  end
-
-  #Custom newznab server nZEDb
-  if USE_NZEDB
-    config.vm.define :nzedb do |nzedb|
-      nzedb.vm.provision :shell, :path => "nzedb.sh"
-      nzedb.vm.forward_port 80, 10080
-      nzedb.vm.host_name = "nzedb"
-      nzedb.vm.network :hostonly, "192.168.2.105"
-    end
-  end
-
-  #Mediatomb
-  #http://mediatomb.cc/
-  if USE_MEDIATOMB
-    config.vm.define :mediatomb do |mediatomb|
-      mediatomb.vm.provision :shell, :path => "mediatomb.sh"
-      #mediatomb.vm.forward_port 58050, 58050
-      #mediatomb.vm.forward_port 58051, 58051
-      mediatomb.vm.host_name = "mediatomb"
-      mediatomb.vm.network :hostonly, "192.168.2.106"
-    end
-  end
-
-end
-
-Vagrant.configure("2") do |config|
-  config.vm.provider "virtualbox" do |v|
-   #Set to true to debug boot issues if you are in an X environment
-   v.gui = false
-  end
+  config.vm.provision :shell, :path => "install_all.sh"
+  
+  # sabnzb
+  config.vm.forward_port 8080, 8080
+  # sickbeard
+  config.vm.forward_port 8081, 8081
+  # couchpotato
+  config.vm.forward_port 5050, 5050
+  # headphones
+  config.vm.forward_port 8181, 8181
+  # nzedb
+  config.vm.forward_port 80, 10080
 end
