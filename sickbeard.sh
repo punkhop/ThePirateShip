@@ -76,6 +76,12 @@ else
     service sickbeard start
 fi
 
+# GEOFF CONFIG SYMLINK STUFF
+sudo rm /mnt/nzb/sickbeard/my.config.ini
+sudo ln -s /vagrant/myconfigs/sickbeard_myconfig.ini /mnt/nzb/sickbeard/my.config.ini
+
+
+
 my_msg "Done setting up sickbeard"
 #Provisioning succeeded
 exit 0
