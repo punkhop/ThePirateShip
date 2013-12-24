@@ -54,6 +54,11 @@ else
  cat $SICKBEARD_INI > $SICKBEARD_ORIGINAL_INI
 fi
 
+# GEOFF CONFIG SYMLINK STUFF
+sudo rm /mnt/nzb/sickbeard/my.config.ini
+sudo ln -s /vagrant/myconfigs/sickbeard_myconfig.ini /mnt/nzb/sickbeard/my.config.ini
+touch /mnt/nzb/sickbeard/my.config.ini
+
 #Write info for other services
 my_update_settings SICKBEARD_PRIVATE_IP `ifconfig eth1 | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | egrep "[0-9\.]+" -o` $ENVIRONMENT_FILE
 #Has the IP and APIKEY
@@ -74,13 +79,6 @@ else
     service sickbeard stop
     service sickbeard start
 fi
-
-# GEOFF CONFIG SYMLINK STUFF
-service sickbeard stop
-sudo rm /mnt/nzb/sickbeard/my.config.ini
-sudo ln -s /vagrant/myconfigs/sickbeard_myconfig.ini /mnt/nzb/sickbeard/my.config.ini
-service sickbeard start
-
 
 
 my_msg "Done setting up sickbeard"
