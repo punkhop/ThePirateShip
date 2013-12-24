@@ -21,16 +21,20 @@ USE_SABNZBD=true
 USE_SICKBEARD=true
 USE_COUCHPOTATO=true
 USE_HEADPHONES=true
-USE_NZEDB=true
-USE_MEDIATOMB=true
+USE_NZEDB=false
+USE_MEDIATOMB=false
+USE_MEGASEARCH=true
 
 #In *nix it is better to use 
 USE_NFS=false
 
 Vagrant.configure("1") do |config|
   #The ubuntu cloud image, will be downloaded for the first box
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-amd64-vagrant-disk1.box"
-  config.vm.box = "raring-amd64-vagrant"
+  #config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-amd64-vagrant-disk1.box"
+  #config.vm.box = "raring-amd64-vagrant"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-i386-vagrant-disk1.box"
+  config.vm.box = "raring-i386-vagrant"
+  
   
   #Default location for all the setting files, incomplete downloads and cache
   #You can not omit this unless you change the defaults in the provisioning scripts
@@ -101,6 +105,17 @@ Vagrant.configure("1") do |config|
       #mediatomb.vm.forward_port 58051, 58051
       mediatomb.vm.host_name = "mediatomb"
       mediatomb.vm.network :hostonly, "192.168.2.106"
+    end
+  end
+
+  #Megasearch
+  if USE_MEGASEARCH
+    config.vm.define :megasearch do |megasearch|
+      megasearch.vm.provision :shell, :path => "megasearch.sh"
+      #megasearch.vm.forward_port ??, ??
+      #megasearch.vm.forward_port ??, ??
+      megasearch.vm.host_name = "megasearch"
+      megasearch.vm.network :hostonly, "192.168.2.107"
     end
   end
 
