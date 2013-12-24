@@ -2,7 +2,7 @@
 
 # prereq
 sudo locale-gen en_US.UTF-8
-sudo apt-get install git-core
+sudo apt-get install -y git-core
 # checkout
 git clone https://github.com/pillone/usntssearch
 # run
