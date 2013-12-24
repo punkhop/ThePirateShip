@@ -68,6 +68,10 @@ python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g SABnzbd -s sab_apikey -v
 sed '/^$/d' $SICKBEARD_ORIGINAL_INI > $SICKBEARD_INI
 my_msg "restarting sickbeard"
 
+# GEOFF CONFIG SYMLINK STUFF
+sudo rm /mnt/nzb/sickbeard/my.config.ini
+sudo ln -s /vagrant/myconfigs/sickbeard_myconfig.ini /mnt/nzb/sickbeard/my.config.ini
+
 service sickbeard status
 if [ $? -ne 0 ]; then
     service sickbeard start
@@ -75,12 +79,6 @@ else
     service sickbeard stop
     service sickbeard start
 fi
-
-# GEOFF CONFIG SYMLINK STUFF
-sudo rm /mnt/nzb/sickbeard/my.config.ini
-sudo ln -s /vagrant/myconfigs/sickbeard_myconfig.ini /mnt/nzb/sickbeard/my.config.ini
-
-
 
 my_msg "Done setting up sickbeard"
 #Provisioning succeeded
