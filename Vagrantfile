@@ -24,14 +24,16 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-i386-vagrant-disk1.box"
   config.vm.box = "raring-i386-vagrant"
   
-  #Default location for all the setting files, incomplete downloads and cache
-  #You can not omit this unless you change the defaults in the provisioning scripts
-  #The mount point should be /mnt/nzb always
-  #If you do not change this then nzb folder will be created in current dir
+  config.vm.network "public_network" # DHCP
+
+  system('mkdir -p nzb') # make it if it doesn't exist
   config.vm.synced_folder "nzb", "/mnt/nzb", type: "nfs"
   #Path to tvshow folder, you can use any mapping here or remove it but sickbeard is setup per default to use /media/video/TV
+  system('mkdir -p tv') # make it if it doesn't exist
   config.vm.synced_folder "tv", "/media/video/TV", type: "nfs"
+  system('mkdir -p movies') # make it if it doesn't exist
   config.vm.synced_folder "movies", "/media/video/Movies", type: "nfs"
+  system('mkdir -p music') # make it if it doesn't exist
   config.vm.synced_folder "music", "/media/video/Music", type: "nfs"
 
   config.vm.provision :shell, :path => "install_all.sh"
