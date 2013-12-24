@@ -63,14 +63,16 @@ touch /mnt/nzb/sickbeard/my.config.ini
 my_update_settings SICKBEARD_PRIVATE_IP `ifconfig eth1 | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | egrep "[0-9\.]+" -o` $ENVIRONMENT_FILE
 #Has the IP and APIKEY
 source $ENVIRONMENT_FILE
+
+
 #Update ini file
-python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g General -s nzb_method -v sabnzbd
-python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g SABnzbd -s sab_host -v "\"http://$SAB_PRIVATE_IP:$SAB_PORT/\""
-python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g SABnzbd -s sab_apikey -v "\"$SAB_API_KEY\""
-[ $SICKBEARD_UPDATE_COMPLETE_DIR -eq "1" ] && python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g General -s tv_download_dir -v "\"$SAB_COMPLETE_DIR\""
+#python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g General -s nzb_method -v sabnzbd
+#python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g SABnzbd -s sab_host -v "\"http://$SAB_PRIVATE_IP:$SAB_PORT/\""
+#python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g SABnzbd -s sab_apikey -v "\"$SAB_API_KEY\""
+#[ $SICKBEARD_UPDATE_COMPLETE_DIR -eq "1" ] && python /vagrant/config.py -i $SICKBEARD_ORIGINAL_INI -g General -s tv_download_dir -v "\"$SAB_COMPLETE_DIR\""
 #Remove all empty lines sickbeard doesnt like them for some reason
-sed '/^$/d' $SICKBEARD_ORIGINAL_INI > $SICKBEARD_INI
-my_msg "restarting sickbeard"
+#sed '/^$/d' $SICKBEARD_ORIGINAL_INI > $SICKBEARD_INI
+#my_msg "restarting sickbeard"
 
 service sickbeard status
 if [ $? -ne 0 ]; then
