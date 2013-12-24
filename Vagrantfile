@@ -21,29 +21,29 @@ USE_NFS=false
 
 Vagrant.configure("2") do |config|
   #The ubuntu cloud image, will be downloaded for the first box
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-amd64-vagrant-disk1.box"
-  config.vm.box = "raring-amd64-vagrant"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-i386-vagrant-disk1.box"
+  config.vm.box = "raring-i386-vagrant"
   
   #Default location for all the setting files, incomplete downloads and cache
   #You can not omit this unless you change the defaults in the provisioning scripts
   #The mount point should be /mnt/nzb always
   #If you do not change this then nzb folder will be created in current dir
-  config.vm.share_folder "nzb", "/mnt/nzb", "nzb", :create => true, :nfs => USE_NFS
+  config.vm.synced_folder "nzb", "/mnt/nzb", type: "nfs"
   #Path to tvshow folder, you can use any mapping here or remove it but sickbeard is setup per default to use /media/video/TV
-  config.vm.share_folder "tv", "/media/video/TV", "Videos/TV", :create => true, :nfs => USE_NFS
-  config.vm.share_folder "movies", "/media/video/Movies", "Videos/Movies", :create => true , :nfs => USE_NFS
-  config.vm.share_folder "music", "/media/Music", "Music", :create => true, :nfs => USE_NFS
-  
+  config.vm.synced_folder "tv", "/media/video/TV", type: "nfs"
+  config.vm.synced_folder "movies", "/media/video/Movies", type: "nfs"
+  config.vm.synced_folder "music", "/media/video/Music", type: "nfs"
+
   config.vm.provision :shell, :path => "install_all.sh"
   
   # sabnzb
-  config.vm.forward_port 8080, 8080
+  config.vm.network :forwarded_port, host: 8080, guest: 8080
   # sickbeard
-  config.vm.forward_port 8081, 8081
+  config.vm.network :forwarded_port, host: 8081, guest: 8081
   # couchpotato
-  config.vm.forward_port 5050, 5050
+  config.vm.network :forwarded_port, host: 5050, guest: 5050
   # headphones
-  config.vm.forward_port 8181, 8181
+  config.vm.network :forwarded_port, host: 8181, guest: 8181
   # nzedb
-  config.vm.forward_port 80, 10080
+  config.vm.network :forwarded_port, host: 10080, guest: 80
 end
