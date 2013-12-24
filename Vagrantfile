@@ -112,8 +112,7 @@ Vagrant.configure("1") do |config|
   if USE_MEGASEARCH
     config.vm.define :megasearch do |megasearch|
       megasearch.vm.provision :shell, :path => "megasearch.sh"
-      #megasearch.vm.forward_port ??, ??
-      #megasearch.vm.forward_port ??, ??
+      megasearch.vm.forward_port 5000, 5000
       megasearch.vm.host_name = "megasearch"
       megasearch.vm.network :hostonly, "192.168.2.107"
     end
