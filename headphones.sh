@@ -70,6 +70,13 @@ python /vagrant/config.py -i $HEADPHONES_ORIGINAL_INI -g SABnzbd -s sab_apikey -
 [ $HEADPHONES_UPDATE_COMPLETE_DIR -eq "1" ] && python /vagrant/config.py -i $HEADPHONES_ORIGINAL_INI -g General -s download_dir -v "\"$SAB_COMPLETE_DIR\""
 #Remove all empty lines HEADPHONES doesnt like them for some reason
 sed '/^$/d' $HEADPHONES_ORIGINAL_INI > $HEADPHONES_INI
+
+
+# GEOFF CONFIG SYMLINK STUFF
+sudo rm /mnt/nzb/headphones/my.config.ini
+sudo ln -s /vagrant/myconfigs/headphones_my.config.ini /mnt/nzb/headphones/my.config.ini
+
+
 my_msg "restarting headphones"
 /etc/init.d/headphones stop
 /etc/init.d/headphones start
