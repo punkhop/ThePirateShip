@@ -72,13 +72,16 @@ python /vagrant/config.py -i $HEADPHONES_ORIGINAL_INI -g SABnzbd -s sab_apikey -
 sed '/^$/d' $HEADPHONES_ORIGINAL_INI > $HEADPHONES_INI
 
 
-# GEOFF CONFIG SYMLINK STUFF
-sudo rm /mnt/nzb/headphones/my.config.ini
-sudo ln -s /vagrant/myconfigs/headphones_my.config.ini /mnt/nzb/headphones/my.config.ini
-
-
 my_msg "restarting headphones"
 /etc/init.d/headphones stop
+
+
+# GEOFF CONFIG SYMLINK STUFF
+sleep 5
+sudo rm /mnt/nzb/headphones/my.config.ini
+sudo ln -s /vagrant/myconfigs/headphones_my.config.ini /mnt/nzb/headphones/my.config.ini
+sleep 5
+
 /etc/init.d/headphones start
 my_msg "Done setting up headphones"
 #Provisioning succeeded
